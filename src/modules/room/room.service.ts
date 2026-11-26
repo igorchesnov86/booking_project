@@ -46,14 +46,17 @@ class RoomService{
         entity.pricePerNight = roomUpdateDto.newPricePerNight;
         await this.repository.save(entity);
     }
-    async bookRoomById(id: number): Promise<RoomDto>{
-        const entity: Room = await this.findEntityById(id);
-        if (entity.isBooked){
+    async checkRoomAvailability(id: number): Promise<Room>{
+        const roomEntity: Room = await this.findEntityById(id);
+        if (roomEntity.isBooked){
             throw new Error("This room is no longer available!");
         }
-        entity.isBooked = true;
-        await this.repository.save(entity);
-        return this.mapper.mapEntityToDto(entity);
+        return roomEntity;
+    } 
+    async bookRoom(roomEntity: Room): Promise<void>{
+        roomEntity.isBooked = true;
+        await this.repository.save(roomEntity);
+        
     }
     async setRoomFrei(id: number): Promise<void>{
         const entity: Room = await this.findEntityById(id);
