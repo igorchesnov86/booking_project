@@ -14,7 +14,7 @@ class User{
     @Column({name: 'phone',nullable: false, unique: true})
     phone: string;
     @OneToOne((): typeof Room => Room,{nullable:true})
-    room: number;
+    room: Room;
     @Column({name: 'status', nullable: false, unique: false})
     active: boolean;
 }

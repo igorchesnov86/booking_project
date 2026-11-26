@@ -9,7 +9,7 @@ import { RoomService } from './room.service.js';
     imports:[TypeOrmModule.forFeature([Room])],
     providers:[RoomRepository, RoomMapper, RoomService],
     controllers:[],
-    exports:[]
+    exports:[RoomMapper],
 })
 class RoomModule{
 
