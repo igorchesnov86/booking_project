@@ -47,15 +47,14 @@ class UserService{
             await this.repository.save(entity);
         }
     }
-    async checkEligibilityUser(id: number): Promise<User>{
-        const userEntity: User = await this.findEntityById(id);
+    async checkEligibilityUser(userEntity: User): Promise<boolean>{
         if (!userEntity.active){
-            throw new Error(`There is no user with id ${id}`);
+            throw new Error(`There is no user with id ${userEntity.id}`);
         }
         if (userEntity.room){
-            throw new Error(`The user with id ${id} has already booked a room.`)
+            throw new Error(`The user with id ${userEntity.id} has already booked a room.`)
         }
-        return userEntity;
+        return true;
     }
     async setAvailableRoomToActiveUser(userEntity: User, roomEntity:Room): Promise<UserDto>{
         userEntity.room = roomEntity;

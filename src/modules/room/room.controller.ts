@@ -5,15 +5,13 @@ import { RoomSaveDto } from './dto/requests/room.save-dto.js';
 import { RoomDto } from './dto/responses/room.dto.js';
 import { RoomUpdateDto } from './dto/requests/room.update-dto.js';
 import { Room } from './room.entity.js';
-import { UserService } from '../user/user.service.js';
-import { User } from '../user/user.entity.js';
-import { UserDto } from '../user/dto/responses/user.dto.js';
+
+
 
 @Controller('room')
 class RoomController{
     constructor (
-        private readonly service: RoomService,
-        private readonly userService: UserService,
+        private readonly service: RoomService
     ){}
     //1. request to make a new entry:
     @Post('create_room')
@@ -45,17 +43,17 @@ class RoomController{
     }
 
     //5. request to book the room and assign it to the user :
-    @Put(':idRoom/book_room/:idUser')
-    ////////////////////////////////////////
-    //@HttpCode(HttpStatus.NO_CONTENT)
-    async bookRoomById(
-        @Param('idRoom',ParseIntPipe) idRoom: number,
-        @Param('idUser',ParseIntPipe) idUser: number,
-    ): Promise<UserDto>{
-        const availableRoom: Room = await this.service.checkRoomAvailability(idRoom);
-        const eligibleUser: User = await this.userService.checkEligibilityUser(idUser);
-        await this.service.bookRoom(availableRoom);
-        return await this.userService.setAvailableRoomToActiveUser(eligibleUser,availableRoom);
-    }
+    // @Put(':idRoom/book_room/:idUser')
+    // ////////////////////////////////////////
+    // //@HttpCode(HttpStatus.NO_CONTENT)
+    // async bookRoomById(
+    //     @Param('idRoom',ParseIntPipe) idRoom: number,
+    //     @Param('idUser',ParseIntPipe) idUser: number,
+    // ): Promise<UserDto>{
+    //     const availableRoom: Room = await this.service.checkRoomAvailability(idRoom);
+    //     const eligibleUser: User = await this.userService.checkEligibilityUser(idUser);
+    //     await this.service.bookRoom(availableRoom);
+    //     return await this.userService.setAvailableRoomToActiveUser(eligibleUser,availableRoom);
+    // }
 }
-export {RoomController};
+export {RoomController}

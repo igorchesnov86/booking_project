@@ -3,11 +3,15 @@ import {Controller,Body,Get,Post,Put,Delete,Param,HttpCode,HttpStatus,
 import { UserService } from './user.service.js';
 import { UserSaveDto } from './dto/requests/user.save-dto.js';
 import { UserDto } from './dto/responses/user.dto.js';
+import { RoomService } from '../room/room.service.js';
+import { Room } from '../room/room.entity.js';
+import { User } from './user.entity.js';
 //http://local_host:3000/user
 @Controller('user')
 class UserController{
     constructor(
         private readonly service: UserService,
+        private readonly roomService: RoomService,
     ){}
     //1. Http-request to create a new user
     @Post('create_user')
@@ -36,6 +40,21 @@ class UserController{
     @HttpCode(HttpStatus.NO_CONTENT)
     async restoreUserById(@Param('id',ParseIntPipe) id: number): Promise<void>{
         await this.service.restoreById(id);
+    }
+    @Put(':idUser/book_room/:idRoom')
+    async bookAndAssignRoomToUser(
+        @Param('idUser',ParseIntPipe) idUser: number,
+        @Param('idRoom',ParseIntPipe) idRoom: number,
+    ): Promise<UserDto|undefined>{
+        const roomEntity: Room = await this.roomService.findEntityById(idRoom);
+        const userEntity: User = await this.service.findEntityById(idUser);
+        const isUserEligible: boolean = await this.service.checkEligibilityUser(userEntity);
+        const isRoomAvailable: boolean = await this.roomService.checkRoomAvailability(roomEntity);
+        if (isUserEligible && isRoomAvailable){
+            await this.roomService.bookRoom(roomEntity);
+            return await this.service.setAvailableRoomToActiveUser(userEntity, roomEntity);
+        }
+        
     }
 }
 export {UserController};

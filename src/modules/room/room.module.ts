@@ -8,10 +8,10 @@ import { UserModule } from '../user/user.module.js';
 import { RoomController } from './room.controller.js';
 
 @Module({
-    imports:[TypeOrmModule.forFeature([Room]),forwardRef(()=> UserModule)],
+    imports:[TypeOrmModule.forFeature([Room])],
     providers:[RoomRepository, RoomMapper, RoomService],
     controllers:[RoomController],
-    exports:[RoomMapper],
+    exports:[RoomMapper,RoomService],
 })
 class RoomModule{
 
