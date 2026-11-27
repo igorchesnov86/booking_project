@@ -56,5 +56,17 @@ class UserController{
         }
         
     }
+    @Put(':idUser/cancel_reservation')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async cancelReservation(
+        @Param('idUser',ParseIntPipe) idUser: number
+    ): Promise<void>{
+        const userEntity: User = await this.service.findEntityById(idUser);
+        if(!userEntity.room){
+            throw new Error(`The user with id ${idUser} has no revervation.`);
+        }
+        await this.roomService.setRoomFrei(userEntity.room.id);
+        await this.service.setRoomToNull(idUser);
+    }
 }
 export {UserController};

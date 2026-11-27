@@ -56,4 +56,4 @@ class RoomController{
     //     return await this.userService.setAvailableRoomToActiveUser(eligibleUser,availableRoom);
     // }
 }
-export {RoomController}
+export {RoomController};

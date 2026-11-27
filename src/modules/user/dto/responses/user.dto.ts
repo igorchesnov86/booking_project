@@ -5,5 +5,5 @@ export class UserDto{
     name: string;
     email: string;
     phone: string;
-    room: RoomDto;
+    room: RoomDto|null;
 }

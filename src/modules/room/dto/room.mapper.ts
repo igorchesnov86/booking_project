@@ -14,7 +14,7 @@ class RoomMapper{
         entity.pricePerNight = roomDto.pricePerNight;
         return entity;
     }
-    mapEntityToDto(room: Room): RoomDto{
+    mapEntityToDto(room: Room|null): RoomDto{
         if(!room){
             return new RoomDto()
         }

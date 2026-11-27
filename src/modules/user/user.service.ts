@@ -16,6 +16,7 @@ class UserService{
     async createUser(userSaveDto: UserSaveDto): Promise<UserDto>{
         const user: User = this.userMapper.mapDtoToEntity(userSaveDto);
         user.active = true;
+        user.room = null;
         await this.repository.save(user);
         return this.userMapper.mapEntityToDto(user);
     }
@@ -60,6 +61,12 @@ class UserService{
         userEntity.room = roomEntity;
         await this.repository.save(userEntity);
         return this.userMapper.mapEntityToDto(userEntity);
+    }
+    async setRoomToNull(id: number): Promise<void>{
+        const userEntity: User = await this.findEntityById(id);
+        userEntity.room = null;
+        await this.repository.save(userEntity);
+
     }
 }
 
