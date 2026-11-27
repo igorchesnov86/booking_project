@@ -13,7 +13,10 @@ class UserRepository{
         return this.repository.save(user);
     }
     async findAllActiveUsers(): Promise<User[]>{
-        return this.repository.findBy({active: true});
+        return this.repository.find({
+            where:{active: true},
+            relations: {room: true}
+        });
     }
     async findUserById(id: number): Promise<User|null>{
         return this.repository.findOneBy({id});

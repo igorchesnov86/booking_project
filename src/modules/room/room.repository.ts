@@ -23,6 +23,7 @@ class RoomRepository{
     async findRoomById(id: number): Promise<Room|null>{
         return this.repository.findOneBy({id});
     }
+    
     async deleteById(id: number): Promise<void> {
         await this.repository.delete(id);
     }

@@ -41,19 +41,5 @@ class RoomController{
     ): Promise<void>{
         await this.service.updatePriceById(id,roomUpdateDto);
     }
-
-    //5. request to book the room and assign it to the user :
-    // @Put(':idRoom/book_room/:idUser')
-    // ////////////////////////////////////////
-    // //@HttpCode(HttpStatus.NO_CONTENT)
-    // async bookRoomById(
-    //     @Param('idRoom',ParseIntPipe) idRoom: number,
-    //     @Param('idUser',ParseIntPipe) idUser: number,
-    // ): Promise<UserDto>{
-    //     const availableRoom: Room = await this.service.checkRoomAvailability(idRoom);
-    //     const eligibleUser: User = await this.userService.checkEligibilityUser(idUser);
-    //     await this.service.bookRoom(availableRoom);
-    //     return await this.userService.setAvailableRoomToActiveUser(eligibleUser,availableRoom);
-    // }
 }
 export {RoomController};

@@ -45,15 +45,16 @@ class UserController{
     async bookAndAssignRoomToUser(
         @Param('idUser',ParseIntPipe) idUser: number,
         @Param('idRoom',ParseIntPipe) idRoom: number,
-    ): Promise<UserDto|undefined>{
+    ): Promise<UserDto>{
         const roomEntity: Room = await this.roomService.findEntityById(idRoom);
         const userEntity: User = await this.service.findEntityById(idUser);
         const isUserEligible: boolean = await this.service.checkEligibilityUser(userEntity);
         const isRoomAvailable: boolean = await this.roomService.checkRoomAvailability(roomEntity);
         if (isUserEligible && isRoomAvailable){
             await this.roomService.bookRoom(roomEntity);
-            return await this.service.setAvailableRoomToActiveUser(userEntity, roomEntity);
+            
         }
+        return await this.service.setAvailableRoomToActiveUser(userEntity, roomEntity);
         
     }
     @Put(':idUser/cancel_reservation')

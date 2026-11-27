@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from 'typeorm';
 import { Room } from '../room/room.entity.js';
 
 @Entity()
@@ -13,8 +13,9 @@ class User{
     password: string;
     @Column({name: 'phone',nullable: false, unique: true})
     phone: string;
-    @OneToOne((): typeof Room => Room,{nullable:true})
-    room: Room | null;
+    @OneToOne(() => Room,{eager: true,nullable:true})
+    @JoinColumn()
+    room: Room|null;
     @Column({name: 'status', nullable: false, unique: false})
     active: boolean;
 }
